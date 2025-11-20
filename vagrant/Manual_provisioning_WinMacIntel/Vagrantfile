@@ -1,12 +1,14 @@
 Vagrant.configure("2") do |config|
   config.hostmanager.enabled = true 
   config.hostmanager.manage_host = true
+  
 
   BRIDGE_ADAPTER = "Intel(R) Wi-Fi 6 AX201 160MHz"
 
   # ---------- DB VM ----------
   config.vm.define "db01" do |db01|
     db01.vm.box = "centos/stream9"
+    db01.vm.boot_timeout = 600   # Increase to 10 minutes
     db01.vm.hostname = "db01"
     db01.vm.network "public_network", ip: "192.168.2.15", bridge: BRIDGE_ADAPTER
     db01.vm.provider "virtualbox" do |vb|
@@ -17,6 +19,7 @@ Vagrant.configure("2") do |config|
   # ---------- Memcached VM ----------
   config.vm.define "mc01" do |mc01|
     mc01.vm.box = "centos/stream9"
+    mc01.vm.boot_timeout = 600
     mc01.vm.hostname = "mc01"
     mc01.vm.network "public_network", ip: "192.168.2.14", bridge: BRIDGE_ADAPTER
     mc01.vm.provider "virtualbox" do |vb|
@@ -27,6 +30,7 @@ Vagrant.configure("2") do |config|
   # ---------- RabbitMQ VM ----------
   config.vm.define "rmq01" do |rmq01|
     rmq01.vm.box = "centos/stream9"
+    rmq01.vm.boot_timeout = 600
     rmq01.vm.hostname = "rmq01"
     rmq01.vm.network "public_network", ip: "192.168.2.13", bridge: BRIDGE_ADAPTER
     rmq01.vm.provider "virtualbox" do |vb|
@@ -37,6 +41,7 @@ Vagrant.configure("2") do |config|
   # ---------- Tomcat App VM ----------
   config.vm.define "app01" do |app01|
     app01.vm.box = "centos/stream9"
+    app01.vm.boot_timeout = 600
     app01.vm.hostname = "app01"
     app01.vm.network "public_network", ip: "192.168.2.12", bridge: BRIDGE_ADAPTER
     app01.vm.provider "virtualbox" do |vb|
@@ -47,10 +52,16 @@ Vagrant.configure("2") do |config|
   # ---------- Nginx Web VM ----------
   config.vm.define "web01" do |web01|
     web01.vm.box = "ubuntu/jammy64"
+    web01.vm.boot_timeout = 600
     web01.vm.hostname = "web01"
-    web01.vm.network "public_network", ip: "192.168.2.11", bridge: BRIDGE_ADAPTER
+
+    # Host-only for Vagrant SSH
+    web01.vm.network "private_network", ip: "192.168.56.11"
+
+    # Bridged so Chrome on laptop can open website
+    web01.vm.network "public_network", bridge: "Intel(R) Wi-Fi 6 AX201 160MHz"
+
     web01.vm.provider "virtualbox" do |vb|
-      vb.gui = true
       vb.memory = 800
     end
   end
