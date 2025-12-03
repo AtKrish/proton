@@ -1,4 +1,7 @@
 #!/bin/bash
+sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
+dnf clean all
+dnf update -y
 sudo yum install epel-release -y
 sudo yum update -y
 sudo yum install wget -y

@@ -1,4 +1,5 @@
-# adding repository and installing nginx		
+# adding repository and installing nginx	
+sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
 apt update
 apt install nginx -y
 cat <<EOT > vproapp

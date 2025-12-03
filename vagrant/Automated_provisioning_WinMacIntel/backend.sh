@@ -1,4 +1,7 @@
 #!/bin/bash
+sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
+dnf clean all
+dnf update -y
 DATABASE_PASS='admin123'
 
 # MEmcache

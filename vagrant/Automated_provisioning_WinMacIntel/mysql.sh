@@ -1,9 +1,12 @@
 #!/bin/bash
+sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
+dnf clean all
+dnf update -y
 DATABASE_PASS='admin123'
 sudo yum update -y
-sudo yum install epel-release -y
-sudo yum install git zip unzip -y
-sudo yum install mariadb-server -y
+sudo dnf install epel-release -y
+sudo dnf install git zip unzip -y
+sudo dnf install mariadb-server -y
 
 
 # starting & enabling mariadb-server

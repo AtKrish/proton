@@ -1,4 +1,7 @@
 #!/bin/bash
+sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
+dnf clean all
+dnf update -y
 sudo dnf install epel-release -y
 sudo dnf install memcached -y
 sudo systemctl start memcached
